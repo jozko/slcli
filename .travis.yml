@@ -8,6 +8,7 @@ services:
 install: true
 
 script:
+  - echo "Travis branch is $TRAVIS_BRANCH"
   - docker build -t jozko/slcli .
   - docker run -it jozko/slcli slcli --demo  server list
 
@@ -15,3 +16,4 @@ after_script:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push jozko/slcli;
+    fi
