@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Simple bash script to setup slcli ENV variables
+
+[ -f /root/.softlayer ] && rm -f /root/.softlayer
+
+echo "Please enter SoftLayer username and apikey in order to use slcli."
+
+echo -n "Enter SoftLayer user name [ENTER]: "
+read slusername
+echo -n "Enter Softlayer apikey and press [ENTER]: "
+read slapikey
+
+echo "[softlayer]" >> /root/.softlayer
+echo "username=${slusername}" >> /root/.softlayer
+echo "api_key=${slapikey}" >> /root/.softlayer
+
+echo "Current slcli config is:"
+slcli config show
