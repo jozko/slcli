@@ -9,7 +9,7 @@ install: true
 
 script:
   - docker build -t jozko/slcli .
-  - docker run -it slcli slcli --demo  server list
+  - docker run -it jozko/slcli slcli --demo  server list
 
 after_script:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
