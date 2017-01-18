@@ -1,33 +1,23 @@
-############################################################
-# Dockerfile to run slcli
-# http://softlayer-python.readthedocs.io/en/latest/cli.html
-# Based on Alpine to keep container as small as possible
-############################################################
+#############################################################
+# Dockerized slcli - check the docs on slcli below          #
+# http://softlayer-python.readthedocs.io/en/latest/cli.html #
+#############################################################
 
-# Set the base image to Python 2.7, Alpine based
 FROM python:2.7-alpine
 
-# File Author / Maintainer
-MAINTAINER jozko.skrablin@si.ibm.com
+MAINTAINER Jozko Skrablin <jozko@zomg.si>
 
-# Update the repository sources list and container packages
-RUN apk update; apk upgrade
+RUN apk --no-cache add bash
+RUN adduser -D -u 5000 cli
 
-################## BEGIN INSTALLATION ######################
+RUN pip --no-cache-dir install --upgrade pip && \ 
+  pip --no-cache-dir install softlayer
 
-# Bash is always nice to have
-RUN apk add bash
-
-# Upgrade pip
-RUN pip install --upgrade pip
-
-# Install slcli
-RUN pip install softlayer
-
-# Add slsetup script and make it executable
+ADD ./bashrc /home/cli/.bashrc
 ADD ./slsetup /usr/local/bin/slsetup
 RUN chmod +x /usr/local/bin/slsetup
 
-##################### INSTALLATION END #####################
 
-
+USER cli
+WORKDIR /home/cli
+ENTRYPOINT ["/bin/bash"]
