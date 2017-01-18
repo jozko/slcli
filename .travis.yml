@@ -10,7 +10,7 @@ install: true
 script:
   - echo "Travis branch is $TRAVIS_BRANCH"
   - docker build -t jozko/slcli .
-  - docker run -it jozko/slcli slcli --demo  server list
+  - docker run -it --entrypoint slcli jozko/slcli
 
 after_script:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
